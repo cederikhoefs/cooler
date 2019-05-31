@@ -191,6 +191,12 @@
     <ClInclude Include="DifferentialSolver.h" />
     <ClInclude Include="OctreeCooler.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="cool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="firstcooler.xcf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(INTELOCLSDKROOT)\BuildCustomizations\IntelOpenCL.targets" />

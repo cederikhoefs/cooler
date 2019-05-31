@@ -36,4 +36,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="cool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="firstcooler.xcf" />
+  </ItemGroup>
 </Project>

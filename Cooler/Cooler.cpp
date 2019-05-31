@@ -12,7 +12,7 @@ using namespace std;
 int main() 
 {
 
-	Cooler cool("cool.png");
+	Cooler cool("cool.bmp");
 
 	LinearMaterialLoader load(cool);
 	LinearRefiller refill;

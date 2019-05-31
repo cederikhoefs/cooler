@@ -15,6 +15,9 @@ struct Color
 	uint8_t B;
 	uint8_t A;
 
+	Color(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = 0);
+	bool operator== (Color& c);
+
 };
 
 class Cooler
@@ -30,21 +33,24 @@ public:
 	Cooler(string path);
 	Cooler(ifstream & filestream); //lodepng unterstützt keine ifstreams...
 
-	void loadBMP(string path);
+	//void loadBMP(string path);
 	void loadPNG(string path);
 	void loadCooler(string path);
 
-	void loadBMP(ifstream & file);
+	//void loadBMP(ifstream & file);
 	void loadPNG(ifstream & file);
 	void loadCooler(ifstream & file);
+
+	Material decode(Color pixel);
+	void load(vector<Color>& image, int width, int height);
 
 	FileType getType(ifstream & file);
 
 	static bool isPNG(string path);
 	static bool isPNG(ifstream & file);
 
-	bool isBMP(string path);
-	bool isBMP(ifstream & file);
+	/*bool isBMP(string path);
+	bool isBMP(ifstream & file);*/
 
 	bool isCooler(string path);
 	bool isCooler(ifstream & file);
