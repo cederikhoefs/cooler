@@ -10,7 +10,6 @@ using namespace std;
 
 class Cooler
 {
-
 	ifstream file;
 	string path;
 
@@ -21,9 +20,4 @@ public:
 
 	Cooler(string path);
 	Cooler(ifstream file);
-
-
-
-
-
 };

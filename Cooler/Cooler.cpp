@@ -11,7 +11,6 @@ using namespace std;
 
 int main() 
 {
-
 	LinearRefiller refill;
 	LinearCalculator calc;
 	LinearHeatFlowCriterium heatflow;

@@ -9,9 +9,7 @@ typedef float Temperature;
 
 struct Position
 {
-
 	int i, j;
-
 };
 struct Constants
 {
@@ -35,7 +33,7 @@ public:
 };
 
 template <typename T, int Resolution> //TODO: Dimension 
-class DifferentialSolver 
+class DifferentialSolver
 {
 	T Actual[Resolution * Resolution]; 
 	T Last[Resolution * Resolution];
@@ -45,7 +43,7 @@ class DifferentialSolver
 	AbstractFunctor<T>* initial;
 	AbstractFunctor<T>* updator;
 	AbstractFunctor<T>* calculator;
-
+	// 
 
 	ExitCriterium<T>* exitcriterium;
 
@@ -62,7 +60,6 @@ public:
 	T& at(Position p);
 
 	T* run(int maxsteps = 10000);
-
 };
 
 // Fricking Templates...
@@ -84,7 +81,6 @@ DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init,
 	calculator = calculate;
 	
 	exitcriterium = exit;
-
 }
 
 template <typename T, int Resolution>
