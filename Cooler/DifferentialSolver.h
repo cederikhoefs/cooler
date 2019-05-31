@@ -37,16 +37,15 @@ public:
 template <typename T, int Resolution> //TODO: Dimension 
 class DifferentialSolver 
 {
-	T Actual[Resolution * Resolution]; 
-	T Last[Resolution * Resolution];
+	T* Actual;	//[Resolution * Resolution]; 
+	T* Last;	//[Resolution * Resolution];
 
 	Constants c;
 
 	AbstractFunctor<T>* initial;
 	AbstractFunctor<T>* updator;
 	AbstractFunctor<T>* calculator;
-
-
+	
 	ExitCriterium<T>* exitcriterium;
 
 public:
@@ -71,17 +70,18 @@ public:
 template<typename T, int Resolution>
 DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init, AbstractFunctor<T>* update, AbstractFunctor<T>* operation, ExitCriterium<T>* exit, Length scale, Time tDelta)
 {
-	/* Dynamische Alloziierung für höhere Dimensionen
+	// Dynamische Alloziierung für höhere Dimensionen?
+
 	Actual = new T[Resolution * Resolution];
 	Last = new T[Resolution * Resolution];
-	*/
+
 	c.epsilon = scale / Resolution;
 	c.tDelta = tDelta;
 	c.res = Resolution;
 
 	initial = init;
 	updator = update;
-	calculator = calculate;
+	calculator = operation;
 	
 	exitcriterium = exit;
 
@@ -90,10 +90,10 @@ DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init,
 template <typename T, int Resolution>
 DifferentialSolver<T, Resolution>::~DifferentialSolver()
 {
-	/* Dynamische Speicherverwaltung für höhere Dimensionen
+	// Dynamische Speicherverwaltung für höhere Dimensionen ?
 	delete[] this->Actual;
 	delete[] this->Last;
-	*/
+	
 }
 
 template<typename T, int Resolution>

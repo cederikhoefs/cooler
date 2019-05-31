@@ -1,13 +1,13 @@
 #pragma once
 
-#include "DifferentialSolver.h"
-#include "OctreeCooler.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 
-enum class Material { AMMONIA, COOLER, ALMIGHTY_CHAN_THE_COOLEST };
+#include "DifferentialSolver.h"
+#include "OctreeCooler.h"
+
 struct State
 {
 
@@ -44,7 +44,7 @@ public:
 		}
 	}
 
-	LinearMaterialLoader(Cooler chan)
+	LinearMaterialLoader(Cooler& chan)
 	{
 
 

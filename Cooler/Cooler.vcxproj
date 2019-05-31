@@ -119,6 +119,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader />
+      <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(INTELOCLSDKROOT)lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -182,6 +184,8 @@
   <ItemGroup>
     <ClCompile Include="Cooler.cpp" />
     <ClCompile Include="LinearCalculator.h" />
+    <ClCompile Include="lodepng.cpp" />
+    <ClCompile Include="OctreeCooler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DifferentialSolver.h" />

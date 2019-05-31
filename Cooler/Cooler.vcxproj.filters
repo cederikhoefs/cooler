@@ -21,6 +21,12 @@
     <ClCompile Include="LinearCalculator.h">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="OctreeCooler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DifferentialSolver.h">
