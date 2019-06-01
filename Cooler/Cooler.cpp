@@ -12,16 +12,16 @@ using namespace std;
 int main() 
 {
 
-	Cooler cool("cool.bmp");
+	Cooler cool("cool.png");
 
 	LinearMaterialLoader load(cool);
 	LinearRefiller refill;
 	LinearCalculator calc;
 	LinearHeatFlowCriterium heatflow;
 
-	//MaterialChanIsTheCoolestUpdater mcitcu;
+	DifferentialSolver<State> dsolver(&load, &refill, &calc, &heatflow, 8, 1.0, 10e-5);
 
-	DifferentialSolver<State, 1024> dsolver(&load, &refill, &calc, &heatflow, 1.0, 10e-5);
+	dsolver.run(4);
 
 	int x;
 	cin >> x;

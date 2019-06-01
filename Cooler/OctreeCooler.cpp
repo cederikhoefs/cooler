@@ -29,10 +29,10 @@ Cooler::Cooler(string path)
 	if (file.good()) {
 		switch (getType(file)) {
 
-		case FileType::BMP:
+		/*case FileType::BMP:
 			cout << "Loading from BMP" << endl;
 			loadBMP(file);
-			break;
+			break;*/
 
 		case FileType::PNG:
 			cout << "Loading from PNG" << endl;
@@ -66,10 +66,10 @@ Cooler::Cooler(ifstream& file)
 	if (file.good()) {
 		switch (getType(file)) {
 
-		case FileType::BMP:
+		/*case FileType::BMP:
 			cout << "Loading from BMP" << endl;
 			loadBMP(file);
-			break;
+			break;*/
 
 		case FileType::PNG:
 			cout << "Loading from PNG" << endl;
@@ -95,6 +95,11 @@ Cooler::Cooler(ifstream& file)
 		cout << "Error in file!!!" << endl;
 
 	}
+}
+
+vector<vector<Material>>& Cooler::getData()
+{
+	return data;
 }
 
 void Cooler::loadPNG(string path)
@@ -175,7 +180,7 @@ void Cooler::loadCooler(ifstream & file)
 
 Material Cooler::decode(Color pixel)
 {
-	if (pixel == Color(0, 0, 0, 0))
+	if (pixel == Color(0, 0, 0, 255))
 		return Material::COOLER;
 
 	else if (pixel == Color(255, 0, 0, 255))
@@ -196,9 +201,9 @@ void Cooler::load(vector<Color>& image, int width, int height)
 		vector<Material> row(width);
 
 		for (int j = 0; j < width; j++)
-			row.push_back(decode(image.at(width * i + j)));
+			row.at(j) = decode(image.at(width * i + j));
 
-		data.push_back(row);
+		data.at(i) = row;
 
 	}
 
@@ -212,8 +217,8 @@ Cooler::FileType Cooler::getType(ifstream & file)
 	if (isPNG(file))
 		return FileType::PNG;
 
-	else if (isBMP(file))
-		return FileType::BMP;
+	/*else if (isBMP(file))
+		return FileType::BMP;*/
 
 	else if (isCooler(file))
 		return FileType::COOLER;

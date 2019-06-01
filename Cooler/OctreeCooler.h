@@ -33,9 +33,10 @@ public:
 	Cooler(string path);
 	Cooler(ifstream & filestream); //lodepng unterstützt keine ifstreams...
 
+	vector<vector<Material>>& getData();
+
 	//void loadBMP(string path);
 	void loadPNG(string path);
-	void loadCooler(string path);
 
 	//void loadBMP(ifstream & file);
 	void loadPNG(ifstream & file);

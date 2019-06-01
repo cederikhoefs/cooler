@@ -19,26 +19,19 @@ struct State
 
 class LinearMaterialLoader : public AbstractFunctor<State>
 {
+	vector<vector<Material>> data;
+	unsigned width, height;
+
 public:
+
 	void operator() (State const * oldbuffer, State * newbuffer, Constants c)
 	{
 		for (int i = 0; i < c.res; i++) {
 			for (int j = 0; j < c.res; j++) {
 
-				switch (newbuffer[i + j * c.res].material) {
-
-				case Material::ALMIGHTY_CHAN_THE_COOLEST:
-					newbuffer[i + j * c.res].refilled = 0 - oldbuffer[i + j * c.res].temperature;
-					newbuffer[i + j * c.res].temperature = 0;
-					break;
-
-				case Material::AMMONIA:
-					newbuffer[i + j * c.res].refilled = 1.0 - oldbuffer[i + j * c.res].temperature;
-					newbuffer[i + j * c.res].temperature = 1.0;
-					break;
-				default:
-					break;
-				}
+				newbuffer[i * c.res + j].material = data[i / (c.res / height)][j / (c.res / width)];
+				newbuffer[i * c.res + j].temperature = 0;
+				newbuffer[i * c.res + j].refilled = 0;
 
 			}
 		}
@@ -46,8 +39,9 @@ public:
 
 	LinearMaterialLoader(Cooler& chan)
 	{
-
-
+		data = chan.getData();
+		height = data.size();
+		width = data[0].size(); //Hoffentlich sind alle gleich groß
 
 	}
 
@@ -87,10 +81,10 @@ public:
 					newbuffer[i + j * c.res].refilled = 1.0 - oldbuffer[i + j * c.res].temperature;
 					newbuffer[i + j * c.res].temperature = 1.0;
 					break;
+
 				default:
 					break;
 				}
-
 			}
 		}
 	}
@@ -102,7 +96,7 @@ public:
 	bool operator() (State* actual, Constants c) const
 	{
 		cout << "Henlo ein Abbluchklitelium" << endl;
-		return true;
+		return false;
 	}
 };
 

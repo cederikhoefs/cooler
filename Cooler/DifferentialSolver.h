@@ -34,13 +34,15 @@ public:
 	virtual bool operator() (T* actual, Constants c) const = 0;
 };
 
-template <typename T, int Resolution> //TODO: Dimension 
+template <typename T> //TODO: Dimension 
 class DifferentialSolver 
 {
-	T* Actual;	//[Resolution * Resolution]; 
-	T* Last;	//[Resolution * Resolution];
+	T* New;	//[Resolution * Resolution]; 
+	T* Old;	//[Resolution * Resolution];
 
 	Constants c;
+
+	int Resolution;
 
 	AbstractFunctor<T>* initial;
 	AbstractFunctor<T>* updator;
@@ -50,7 +52,7 @@ class DifferentialSolver
 
 public:
 
-	DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init, AbstractFunctor<T> * update, AbstractFunctor<T> * operation, ExitCriterium<T> * exit, Length scale, Time tDelta);
+	DifferentialSolver<T>::DifferentialSolver(AbstractFunctor<T> * init, AbstractFunctor<T> * update, AbstractFunctor<T> * operation, ExitCriterium<T> * exit, int resolution, Length scale, Time tDelta);
 
 	~DifferentialSolver();
 
@@ -67,13 +69,15 @@ public:
 // Fricking Templates...
 //******************************************************************************
 
-template<typename T, int Resolution>
-DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init, AbstractFunctor<T>* update, AbstractFunctor<T>* operation, ExitCriterium<T>* exit, Length scale, Time tDelta)
+template<typename T>
+DifferentialSolver<T>::DifferentialSolver(AbstractFunctor<T> * init, AbstractFunctor<T>* update, AbstractFunctor<T>* operation, ExitCriterium<T>* exit, int resolution, Length scale, Time tDelta)
 {
 	// Dynamische Alloziierung für höhere Dimensionen?
 
-	Actual = new T[Resolution * Resolution];
-	Last = new T[Resolution * Resolution];
+	Resolution = resolution;
+
+	New = new T[Resolution * Resolution];
+	Old = new T[Resolution * Resolution];
 
 	c.epsilon = scale / Resolution;
 	c.tDelta = tDelta;
@@ -87,52 +91,56 @@ DifferentialSolver<T, Resolution>::DifferentialSolver(AbstractFunctor<T> * init,
 
 }
 
-template <typename T, int Resolution>
-DifferentialSolver<T, Resolution>::~DifferentialSolver()
+template <typename T>
+DifferentialSolver<T>::~DifferentialSolver()
 {
 	// Dynamische Speicherverwaltung für höhere Dimensionen ?
-	delete[] this->Actual;
-	delete[] this->Last;
+	delete[] this->New;
+	delete[] this->Old;
 	
 }
 
-template<typename T, int Resolution>
-inline bool DifferentialSolver<T, Resolution>::end()
+template<typename T>
+inline bool DifferentialSolver<T>::end()
 {
-	return (*exitcriterium)(Actual, c);
+	return (*exitcriterium)(New, c);
 }
 
-template<typename T, int Resolution>
-inline void DifferentialSolver<T, Resolution>::step()
+template<typename T>
+inline void DifferentialSolver<T>::step()
 {
-	(*calculator)(Last, Actual, c);
+	(*updator)(Old, New, c);
+	(*calculator)(Old, New, c);
 }
 
-template<typename T, int Resolution>
-inline T& DifferentialSolver<T, Resolution>::at(Position p)
+template<typename T>
+inline T& DifferentialSolver<T>::at(Position p)
 {
-	return Actual[p.i][p.j];
+	return New[p.i][p.j];
 }
 
-template<typename T, int Resolution>
-inline void DifferentialSolver<T, Resolution>::swap()
+template<typename T>
+inline void DifferentialSolver<T>::swap()
 {
-	T* temp = Actual;
-	Actual = Last;
-	Last = temp;
+	T* temp = New;
+	New = Old;
+	Old = temp;
 
 }
 
-template<typename T, int Resolution>
-T * DifferentialSolver<T, Resolution>::run(int maxsteps)
+template<typename T>
+T * DifferentialSolver<T>::run(int maxsteps)
 {
 	int steps = 0;
+
+	(*initial)(New, Old, c); //Beide Arrays initialisieren
+	(*initial)(Old, New, c);
 
 	do {
 		swap(); //Arrays vertauschen
 		step();
 		steps++;
 	} while (!end() && steps < maxsteps);
-	return 
+	return New;
 }
 
