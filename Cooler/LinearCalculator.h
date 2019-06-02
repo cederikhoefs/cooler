@@ -54,11 +54,24 @@ public:
 	{
 		for (int i = 0; i < c.res; i++) {
 			for (int j = 0; j < c.res; j++) {
-				
-				
-
+				State x = oldbuffer[i + j * c.res];
+				x.temperature += Laplace({i, j}, oldbuffer, c.res) * c.tDelta;
+				newbuffer[i + j * c.res] = x;
 			}
 		}
+	}
+
+	float Laplace(Position p, State const * buffer, int res)
+	{
+		float point = 2 * temp_at(p, buffer, res);
+		float ddxddx = temp_at({p.i - 1, p.j}, buffer, res) + temp_at({p.i + 1, p.j}, buffer, res) - point;
+		float ddyddy = temp_at({p.i, p.j - 1}, buffer, res) + temp_at({p.i, p.j + 1}, buffer, res) - point;
+		return ddxddx + ddyddy;
+	}
+
+	float temp_at(Position p, State const* buffer, int res)
+	{
+		return buffer[p.i % res + (p.j % res) * res].temperature;
 	}
 };
 
